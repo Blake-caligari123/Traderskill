@@ -47,8 +47,8 @@
   function initSims() {
     if (!window.SandSim) return;
     const small = innerWidth < 700;
-    sims.hero = new SandSim($('#heroCanvas'), { size: small ? 200 : 280, ticks: 2, palette: PALETTES.ocean, autoFlip: !reduce });
-    sims.shop = new SandSim($('#shopCanvas'), { size: small ? 170 : 220, palette: PALETTES.ocean, autoFlip: false });
+    sims.hero = new SandSim($('#heroCanvas'), { size: small ? 270 : 420, ticks: 3, palette: PALETTES.ocean, autoFlip: !reduce });
+    sims.shop = new SandSim($('#shopCanvas'), { size: small ? 240 : 340, ticks: 3, palette: PALETTES.ocean, autoFlip: false });
     $$('[data-flip]').forEach((b) =>
       b.addEventListener('click', () => {
         const key = b.dataset.flip;

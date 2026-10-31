@@ -8,7 +8,7 @@
  */
 (function () {
   const SHADES = 8;
-  const SHADE_F = [0.84, 0.89, 0.94, 0.98, 1.02, 1.06, 1.1, 1.45];
+  const SHADE_F = [0.9, 0.93, 0.96, 0.99, 1.01, 1.04, 1.07, 1.35];
 
   function hexToRgb(h) {
     h = h.replace('#', '');
@@ -52,6 +52,7 @@
       this.shade = new Uint8Array(N);
       this.moving = new Uint8Array(N);
       this.mask = new Uint8Array(N);
+      this.rowCount = new Int32Array(H);
       this.release = new Float32Array(W);
       this.colTop = new Int16Array(W);
       this.foamSeed = Float32Array.from({ length: W }, Math.random);
@@ -59,10 +60,12 @@
       this.paused = false;
       this.visible = true;
       this.frame = 0;
+      this.maxPx = 900;      // backing-store cap; lowered automatically on slow devices
+      this.perf = { t: 0, n: 0, sum: 0 };
 
       this.sett = layer(W, H);
       this.fall = layer(W, H);
-      this.mist = layer(Math.ceil(W / 4), Math.ceil(H / 4));
+      this.mist = layer(Math.ceil(W / 3), Math.ceil(H / 3));
       this.img = this.sett.ctx.createImageData(W, H);
       this.imgF = this.fall.ctx.createImageData(W, H);
       this.buf = new Uint32Array(this.img.data.buffer);
@@ -96,11 +99,22 @@
 
     resize() {
       const r = this.canvas.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      // cap the backing store: past ~900px the grain texture is finer than the eye can see
+      const dpr = Math.min(window.devicePixelRatio || 1, 2, this.maxPx / Math.max(1, r.width));
       this.canvas.width = Math.max(1, Math.round(r.width * dpr));
       this.canvas.height = Math.max(1, Math.round(r.height * dpr));
       this.bg = null;
       this.render();
+    }
+
+    countRows() {
+      const { W, H, type, rowCount } = this;
+      rowCount.fill(0);
+      for (let y = 0; y < H; y++) {
+        let n = 0;
+        for (let i = y * W, e = i + W; i < e; i++) if (type[i]) n++;
+        rowCount[y] = n;
+      }
     }
 
     setPalette(p) {
@@ -118,7 +132,7 @@
           const [r, g, b] = rgb.map((v) => clamp(v * f + (s === 7 ? 40 : 0)));
           this.lut[(i + 1) * SHADES + s] = rgba(r, g, b, 255);
           // falling grains: lighter and translucent, like sand suspended in liquid
-          this.lutF[(i + 1) * SHADES + s] = rgba(clamp(r + (255 - r) * 0.6), clamp(g + (255 - g) * 0.6), clamp(b + (255 - b) * 0.6), 150);
+          this.lutF[(i + 1) * SHADES + s] = rgba(clamp(r + (255 - r) * 0.65), clamp(g + (255 - g) * 0.65), clamp(b + (255 - b) * 0.65), 230);
         }
       });
       this.bg = null;
@@ -166,6 +180,7 @@
           c = end;
         }
       }
+      this.countRows();
     }
 
     makeRelease() {
@@ -176,7 +191,7 @@
       const leaks = 3 + ((Math.random() * 3) | 0);
       for (let j = 0; j < leaks; j++) {
         const x0 = (W * (0.15 + Math.random() * 0.7)) | 0;
-        const w = 2 + ((Math.random() * 3) | 0);
+        const w = Math.max(2, Math.round((2 + Math.random() * 3) * (W / 280)));
         for (let x = x0; x < x0 + w && x < W; x++) this.release[x] = 0.6;
       }
       this.frame = 0;
@@ -203,6 +218,7 @@
       this.moving.fill(0);
       this.bubbles.length = 0;
       this.foamSeed = Float32Array.from({ length: this.W }, Math.random);
+      this.countRows();
       this.makeRelease();
     }
 
@@ -239,7 +255,7 @@
           t++;
         } while (this.depo && t === this.depo.t && tries++ < 6);
         const fleck = weights[t - 1] < 0.5;
-        const unit = this.W * 0.9;
+        const unit = this.W * 2.6;
         this.depo = { t, left: Math.round(unit * (fleck ? 0.3 + Math.random() * 0.4 : 0.8 + Math.random() * 2.6)) };
       }
       return this.depo.t;
@@ -255,12 +271,17 @@
       const { type, shade, moving } = this;
       type[b] = type[a]; shade[b] = shade[a]; moving[b] = 1;
       type[a] = 0; moving[a] = 0;
+      const W = this.W;
+      this.rowCount[(a / W) | 0]--;
+      this.rowCount[(b / W) | 0]++;
     }
 
     step() {
       const { W, H, type, moving, mask, release, speed } = this;
       const empty = (j) => mask[j] && !type[j];
+      const rowCount = this.rowCount;
       for (let y = H - 2; y >= 0; y--) {
+        if (!rowCount[y]) continue;
         const ltr = Math.random() < 0.5;
         const row = y * W;
         for (let k = 0; k < W; k++) {
@@ -283,6 +304,8 @@
               this.move(i, target);
             }
           } else {
+            // landing on sand that is itself still falling: wait, don't freeze mid-air
+            if (moving[i] && mask[below] && moving[below]) continue;
             const dx = Math.random() < 0.5 ? -1 : 1;
             const a = below + dx, b = below - dx;
             const okA = x + dx >= 0 && x + dx < W && empty(a);
@@ -321,17 +344,24 @@
 
     buildBg() {
       const { width: w, height: h } = this.canvas;
-      const { c, ctx: g } = layer(w, h);
       const [top, bot] = this.palette.bg;
-      const lin = g.createLinearGradient(0, 0, 0, h);
-      lin.addColorStop(0, top); lin.addColorStop(1, bot);
-      g.fillStyle = lin; g.fillRect(0, 0, w, h);
-      // soft light from the upper left, through the glass
-      const rad = g.createRadialGradient(w * 0.4, h * 0.35, 0, w * 0.5, h * 0.5, w * 0.62);
-      rad.addColorStop(0, 'rgba(255,255,255,0.16)');
-      rad.addColorStop(1, 'rgba(255,255,255,0)');
-      g.fillStyle = rad; g.fillRect(0, 0, w, h);
-      this.bg = c;
+      // the liquid is a CSS background behind the (transparent) canvas: no per-frame cost
+      this.canvas.style.background =
+        `radial-gradient(circle at 40% 35%, rgba(255,255,255,.16), rgba(255,255,255,0) 62%), linear-gradient(${top}, ${bot})`;
+      this.bg = true;
+
+      // fine grain texture at device-pixel resolution, applied only on top of sand
+      const { c: nc, ctx: ng } = layer(w, h);
+      const img = ng.createImageData(w, h);
+      const d = new Uint32Array(img.data.buffer);
+      for (let i = 0; i < d.length; i++) {
+        const v = Math.random();
+        d[i] = v < 0.14 ? rgba(0, 0, 0, 25 + ((v * 300) | 0))
+          : v > 0.95 ? rgba(255, 255, 255, 25 + (((v - 0.95) * 1200) | 0))
+          : 0;
+      }
+      ng.putImageData(img, 0, 0);
+      this.grain = nc;
     }
 
     drawFoam(ctx, s) {
@@ -375,10 +405,14 @@
       const w = canvas.width, h = canvas.height, s = w / W;
       ctx.globalAlpha = 1;
       ctx.globalCompositeOperation = 'source-over';
-      ctx.drawImage(this.bg, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+      // sand layer: smooth upscale, then fine grain texture clipped to the sand
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = 'high';
       ctx.drawImage(this.sett.c, 0, 0, w, h);
+      ctx.globalCompositeOperation = 'source-atop';
+      ctx.drawImage(this.grain, 0, 0);
+      ctx.globalCompositeOperation = 'source-over';
 
       if (falling) {
         this.fall.ctx.putImageData(this.imgF, 0, 0);
@@ -388,7 +422,7 @@
         m.ctx.drawImage(this.fall.c, 0, 0, m.c.width, m.c.height);
         // glowing veil (cheap blur: downscale then upscale)
         ctx.globalCompositeOperation = 'screen';
-        ctx.drawImage(m.c, 0, 0, w, h);
+        ctx.globalAlpha = 0.8;
         ctx.drawImage(m.c, 0, 0, w, h);
         ctx.globalCompositeOperation = 'source-over';
         ctx.globalAlpha = 0.55;
@@ -408,9 +442,22 @@
       }
     }
 
-    loop() {
+    // Adaptive quality: if frames run slow, render the canvas at a lower resolution.
+    trackPerf(now) {
+      const p = this.perf;
+      if (p.t) { p.sum += now - p.t; p.n++; }
+      p.t = now;
+      if (p.n === 90) {
+        const avg = p.sum / p.n;
+        if (avg > 24 && this.maxPx > 480) { this.maxPx = Math.round(this.maxPx * 0.8); this.resize(); }
+        p.n = 0; p.sum = 0;
+      }
+    }
+
+    loop(now) {
       requestAnimationFrame(this.loop);
-      if (!this.visible || document.hidden) return;
+      if (!this.visible || document.hidden) { this.perf.t = 0; return; }
+      this.trackPerf(now);
       if (!this.paused) {
         for (let k = 0; k < this.ticks; k++) this.step();
         if (++this.frame % 12 === 0) this.widenLeaks();
