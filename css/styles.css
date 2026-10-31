@@ -132,9 +132,9 @@ body::before {
 @keyframes breathe { 50% { opacity: .8; transform: translateX(-50%) scale(1.06); } }
 
 .frame {
-  position: relative; width: min(540px, 82vw); aspect-ratio: 1; border-radius: 50%; padding: 16px;
-  background: conic-gradient(from 200deg, #2a2722, #0b0a09, #3b3730, #0b0a09, #2a2722);
-  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .9), inset 0 2px 2px rgba(255, 255, 255, .18), inset 0 -3px 6px rgba(0, 0, 0, .6);
+  position: relative; width: min(540px, 82vw); aspect-ratio: 1; border-radius: 50%; padding: 12px;
+  background: linear-gradient(145deg, #3a3a3a 0%, #0b0b0b 30%, #050505 60%, #2b2b2b 100%);
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .9), inset 0 1px 1px rgba(255, 255, 255, .25), inset 0 -2px 4px rgba(0, 0, 0, .7), 0 0 0 1px rgba(255, 255, 255, .04);
   z-index: 1;
   opacity: 0; transform: scale(.94) translateY(20px); transition: opacity 1.4s var(--ease) .3s, transform 1.4s var(--ease) .3s;
 }
@@ -143,7 +143,7 @@ body::before {
 .disc { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; box-shadow: inset 0 0 0 2px rgba(0, 0, 0, .5); will-change: transform; background: #9cc; }
 .disc canvas { width: 100%; height: 100%; }
 .glass {
-  position: absolute; inset: 16px; border-radius: 50%; pointer-events: none;
+  position: absolute; inset: 12px; border-radius: 50%; pointer-events: none;
   background:
     radial-gradient(ellipse 45% 30% at 30% 18%, rgba(255, 255, 255, .45), transparent 70%),
     radial-gradient(ellipse 30% 20% at 75% 85%, rgba(255, 255, 255, .12), transparent 70%),
@@ -152,12 +152,14 @@ body::before {
 }
 .frame-hit { position: absolute; inset: 0; border-radius: 50%; background: none; border: 0; cursor: pointer; }
 .stand {
-  width: 46%; height: 34px; margin-top: -22px; position: relative; z-index: 0;
-  background: linear-gradient(#2c2924, #0e0d0b); border-radius: 0 0 50% 50% / 0 0 100% 100%;
-  box-shadow: 0 24px 40px -10px rgba(0, 0, 0, .8);
+  width: 64%; height: clamp(54px, 9vw, 84px); margin-top: clamp(-46px, -5vw, -30px); position: relative; z-index: 2;
+  background: linear-gradient(180deg, #1d1d1d 0%, #0a0a0a 22%, #050505 100%);
+  clip-path: polygon(9% 0, 91% 0, 100% 100%, 0 100%);
+  filter: drop-shadow(0 24px 30px rgba(0, 0, 0, .8));
 }
-.stand::after { content: ''; position: absolute; left: -8%; right: -8%; bottom: -10px; height: 12px; border-radius: 50%; background: #0a0908; box-shadow: 0 10px 30px rgba(0, 0, 0, .7); }
-.stand-sm { width: 40%; }
+.stand::before { content: ''; position: absolute; left: 9%; right: 9%; top: 0; height: 2px; background: rgba(255, 255, 255, .14); }
+.stand::after { content: ''; position: absolute; left: 30%; right: 30%; top: 0; height: 14%; background: #000; border-radius: 0 0 6px 6px; }
+.stand-sm { width: 58%; }
 .hint { margin: 30px 0 0; font-size: 13px; color: var(--muted); display: inline-flex; align-items: center; gap: 10px; text-align: center; }
 .hint strong { color: var(--text); font-weight: 600; }
 .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 0 rgba(143, 209, 158, .6); animation: pulse 2s infinite; }
@@ -379,8 +381,8 @@ details[open] > summary::after { transform: rotate(45deg); }
   .lede { margin-inline: auto; }
   .hero-cta, .trust { justify-content: center; }
   .hero-art { order: -1; }
-  .frame { width: min(400px, 84vw); padding: 12px; }
-  .glass { inset: 12px; }
+  .frame { width: min(400px, 84vw); padding: 10px; }
+  .glass { inset: 10px; }
   .hint { margin-top: 22px; }
   .steps { grid-template-columns: 1fr; }
   .shop-grid { grid-template-columns: 1fr; }

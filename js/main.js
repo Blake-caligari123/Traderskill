@@ -26,10 +26,10 @@
   ];
 
   const PALETTES = {
-    ocean: { name: 'Deep Ocean', sand: ['#13243a', '#eef1ee', '#2f87a6', '#0a0c10'], bg: ['#cdeaf3', '#73b6cf'], glow: '#3b9cc0' },
-    desert: { name: 'Desert Gold', sand: ['#7a4726', '#f6e8cc', '#cf8d48', '#38231a'], bg: ['#fdeed6', '#efbe85'], glow: '#e0a35c' },
-    midnight: { name: 'Midnight', sand: ['#2b303b', '#ece9e2', '#8c96aa', '#08090c'], bg: ['#e1e5ec', '#98a4b9'], glow: '#8796b5' },
-    blush: { name: 'Blush', sand: ['#6e2f47', '#fdf1ec', '#d9809a', '#2a1420'], bg: ['#fde6e8', '#f0afbd'], glow: '#e88aa3' },
+    ocean: { name: 'Deep Ocean', sand: ['#0d1f4a', '#2456b8', '#7aa7e6', '#eef3fa', '#05070d', '#d4a64a'], weights: [3, 3, 2, 2, 2, 0.3], bg: ['#2f7c83', '#113a41'], glow: '#2f8f99' },
+    desert: { name: 'Desert Gold', sand: ['#3b2414', '#8f5424', '#d79a4f', '#f5e6c8', '#0d0906', '#f0c75e'], weights: [3, 3, 2, 2, 1.5, 0.4], bg: ['#c99a5e', '#5c3818'], glow: '#d99a4e' },
+    midnight: { name: 'Midnight', sand: ['#0a0b0e', '#3a3f4a', '#8b93a3', '#f4f4f0', '#1d2028', '#cfd3dc'], weights: [3, 2, 2, 2, 2, 0.4], bg: ['#56677a', '#1a222c'], glow: '#7f93ad' },
+    blush: { name: 'Blush', sand: ['#4a1530', '#a83c66', '#ea8fac', '#fcf0f2', '#16080f', '#dcb46a'], weights: [3, 3, 2, 2, 1.5, 0.3], bg: ['#a85574', '#40162a'], glow: '#e0809f' },
   };
 
   const $ = (s, r = document) => r.querySelector(s);
@@ -47,8 +47,8 @@
   function initSims() {
     if (!window.SandSim) return;
     const small = innerWidth < 700;
-    sims.hero = new SandSim($('#heroCanvas'), { size: small ? 150 : 190, ticks: 3, palette: PALETTES.ocean, autoFlip: !reduce });
-    sims.shop = new SandSim($('#shopCanvas'), { size: small ? 120 : 150, palette: PALETTES.ocean, autoFlip: false });
+    sims.hero = new SandSim($('#heroCanvas'), { size: small ? 200 : 280, ticks: 2, palette: PALETTES.ocean, autoFlip: !reduce });
+    sims.shop = new SandSim($('#shopCanvas'), { size: small ? 170 : 220, palette: PALETTES.ocean, autoFlip: false });
     $$('[data-flip]').forEach((b) =>
       b.addEventListener('click', () => {
         const key = b.dataset.flip;
