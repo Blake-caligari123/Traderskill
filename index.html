@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Duneglass — Moving Sand Art</title>
+  <meta name="description" content="Moving sand art in a round glass frame. Flip it and watch a new landscape form, slowly, every time. Free shipping over A$100 and a 30-day money-back guarantee." />
+  <meta property="og:title" content="Duneglass — Moving Sand Art" />
+  <meta property="og:description" content="Flip it. Watch a new world form. Every landscape is one of a kind." />
+  <meta name="theme-color" content="#0d0c0a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="announce" role="region" aria-label="Offers">
+    <div class="announce-track">
+      <span>Free shipping on orders over A$100</span><span>Buy 2, save 15% · Buy 3, save 20%</span><span>30-day money-back guarantee</span>
+      <span aria-hidden="true">Free shipping on orders over A$100</span><span aria-hidden="true">Buy 2, save 15% · Buy 3, save 20%</span><span aria-hidden="true">30-day money-back guarantee</span>
+    </div>
+  </div>
+
+  <header class="nav" id="nav">
+    <a href="#top" class="logo" aria-label="Duneglass home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 20c4-5 7-5 10-2s5 4 8 0 5-3 6-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Duneglass
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#how">How it works</a>
+      <a href="#shop">Shop</a>
+      <a href="#guarantee">Guarantee</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <button class="cart-btn" id="cartOpen" aria-label="Open cart">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 7a3 3 0 0 1 6 0" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow reveal-up" style="--d:0">Moving sand art · Glass frame · No power needed</p>
+        <h1 class="display">
+          <span class="line"><span>Flip it.</span></span>
+          <span class="line"><span>Watch a new</span></span>
+          <span class="line"><span><em>world</em> form.</span></span>
+        </h1>
+        <p class="lede reveal-up" style="--d:3">Coloured sand falls slowly through liquid, building mountains, dunes and valleys that nobody has seen before. Turn it over and it starts again.</p>
+        <div class="hero-cta reveal-up" style="--d:4">
+          <a href="#shop" class="btn primary" data-track="hero_shop">Shop Duneglass — from A$89</a>
+          <button class="btn ghost" data-flip="hero" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v4h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Try it — flip the frame
+          </button>
+        </div>
+        <ul class="trust reveal-up" style="--d:5">
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="7" cy="17.5" r="1.6" fill="currentColor"/><circle cx="17" cy="17.5" r="1.6" fill="currentColor"/></svg>Free shipping over A$100</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m8.5 12 2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>30-day money-back</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Secure checkout</li>
+        </ul>
+      </div>
+
+      <div class="hero-art">
+        <div class="glow" aria-hidden="true"></div>
+        <div class="frame" data-frame="hero">
+          <div class="disc" data-disc><canvas id="heroCanvas" aria-label="Live moving sand animation. Tap to flip." role="img"></canvas></div>
+          <div class="glass" aria-hidden="true"></div>
+          <button class="frame-hit" data-flip="hero" type="button" aria-label="Flip the frame"></button>
+        </div>
+        <div class="stand" aria-hidden="true"></div>
+        <p class="hint"><span class="pulse"></span>Live simulation · tap the glass to flip</p>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Never the same twice</span><i>✦</i><span>No batteries</span><i>✦</i><span>No screens</span><i>✦</i><span>Just gravity</span><i>✦</i><span>Desk · Bedside · Office</span><i>✦</i>
+        <span>Never the same twice</span><i>✦</i><span>No batteries</span><i>✦</i><span>No screens</span><i>✦</i><span>Just gravity</span><i>✦</i><span>Desk · Bedside · Office</span><i>✦</i>
+      </div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <section id="how" class="section how">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">How it works</p>
+        <h2 class="h2">Three steps. <em>Endless</em> landscapes.</h2>
+      </div>
+      <ol class="steps">
+        <li class="step" data-reveal style="--d:0">
+          <span class="step-num">01</span>
+          <div class="step-icon icon-flip" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" fill="none" stroke="currentColor" stroke-width="3"/><path d="M14 40c6-6 10-6 14-2s8 5 12 0 6-4 10-1" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></div>
+          <h3>Flip it</h3>
+          <p>Turn the frame on its stand. All the sand rises to the top.</p>
+        </li>
+        <li class="step" data-reveal style="--d:1">
+          <span class="step-num">02</span>
+          <div class="step-icon icon-fall" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" fill="none" stroke="currentColor" stroke-width="3"/><g fill="currentColor"><circle class="g1" cx="26" cy="20" r="2"/><circle class="g2" cx="32" cy="18" r="2"/><circle class="g3" cx="38" cy="21" r="2"/></g></svg></div>
+          <h3>Let it fall</h3>
+          <p>Grains trickle down through the liquid in thin streams, one layer at a time.</p>
+        </li>
+        <li class="step" data-reveal style="--d:2">
+          <span class="step-num">03</span>
+          <div class="step-icon icon-form" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" fill="none" stroke="currentColor" stroke-width="3"/><path d="M12 44 22 30l6 7 8-13 8 10 8 10" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/></svg></div>
+          <h3>Watch a world form</h3>
+          <p>Peaks, dunes and valleys settle into a scene that's yours alone, until the next flip.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- STATEMENT -->
+    <section class="statement" id="statement">
+      <p class="words" data-words>Your phone moves at the speed of notifications. Duneglass moves at the speed of sand. A few slow minutes, a landscape no one has ever seen, and a good reason to put your phone face-down.</p>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section features">
+      <div class="feature-grid">
+        <article class="feature" data-reveal style="--d:0">
+          <div class="f-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4 22c4-6 7-6 10-3s5 4 8 0 5-3 6-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4 14c4-4 7-4 10-2s5 3 8 0 5-2 6-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".5"/></svg></div>
+          <h3>Never the same twice</h3>
+          <p>Every flip makes a new range of peaks and drifts. You'll never see the same scene again.</p>
+        </article>
+        <article class="feature" data-reveal style="--d:1">
+          <div class="f-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><rect x="9" y="5" width="14" height="22" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 5l22 22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <h3>Zero power, zero screens</h3>
+          <p>No batteries, no cables, no app. It runs on gravity, so it's a calm thing to look at.</p>
+        </article>
+        <article class="feature" data-reveal style="--d:2">
+          <div class="f-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="14" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 28h12M16 24v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <h3>Sealed glass on a stand</h3>
+          <p>Sand and liquid are sealed in a round glass frame on a stand that turns, so flipping takes one hand.</p>
+        </article>
+        <article class="feature" data-reveal style="--d:3">
+          <div class="f-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><rect x="5" y="12" width="22" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 12h26M16 12v15M16 12c-3-6-9-6-8-2s8 2 8 2 7 2 8-2-5-4-8 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div>
+          <h3>The gift people remember</h3>
+          <p>A good pick for anyone hard to buy for: desk-dwellers, overthinkers, new homeowners.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats" aria-label="At a glance">
+      <div class="stat" data-reveal><span class="stat-num">∞</span><span class="stat-label">possible landscapes</span></div>
+      <div class="stat" data-reveal style="--d:1"><span class="stat-num" data-count="0">0</span><span class="stat-label">batteries needed</span></div>
+      <div class="stat" data-reveal style="--d:2"><span class="stat-num"><span data-count="3">0</span></span><span class="stat-label">sizes</span></div>
+      <div class="stat" data-reveal style="--d:3"><span class="stat-num"><span data-count="4">0</span></span><span class="stat-label">colourways</span></div>
+    </section>
+
+    <!-- SHOP / CONFIGURATOR -->
+    <section id="shop" class="section shop">
+      <div class="shop-grid">
+        <div class="shop-preview" data-reveal>
+          <div class="preview-sticky">
+            <div class="glow" aria-hidden="true"></div>
+            <div class="frame frame-sm" data-frame="shop">
+              <div class="disc" data-disc><canvas id="shopCanvas" role="img" aria-label="Preview of the selected colourway"></canvas></div>
+              <div class="glass" aria-hidden="true"></div>
+              <button class="frame-hit" data-flip="shop" type="button" aria-label="Flip the preview"></button>
+            </div>
+            <div class="stand stand-sm" aria-hidden="true"></div>
+            <p class="hint">Live preview of <strong id="previewName">Deep Ocean</strong> · tap to flip</p>
+          </div>
+        </div>
+
+        <div class="shop-panel" data-reveal style="--d:1">
+          <p class="eyebrow">The Duneglass</p>
+          <h2 class="h2">Pick your <em>world.</em></h2>
+          <p class="price-row"><span class="price" id="price">A$89</span><span class="price-note" id="priceNote">per frame</span></p>
+
+          <fieldset class="opt">
+            <legend>Colourway — <span id="paletteLabel">Deep Ocean</span></legend>
+            <div class="swatches" id="swatches" role="radiogroup"></div>
+          </fieldset>
+
+          <fieldset class="opt">
+            <legend>Size</legend>
+            <div class="sizes" id="sizes" role="radiogroup"></div>
+          </fieldset>
+
+          <fieldset class="opt">
+            <legend>Bundle &amp; save</legend>
+            <div class="bundles" id="bundles" role="radiogroup"></div>
+          </fieldset>
+
+          <button class="btn primary btn-block" id="addToCart" type="button">
+            <span>Add to cart</span><span class="btn-sep">·</span><span id="ctaTotal">A$89</span>
+          </button>
+
+          <ul class="perks">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Ships in 1–3 business days with tracking</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>30-day money-back guarantee</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Arrives broken? We replace it free</li>
+          </ul>
+
+          <div class="pay" aria-label="Accepted payment methods">
+            <span>Visa</span><span>Mastercard</span><span>Amex</span><span>PayPal</span><span>Apple Pay</span><span>Afterpay</span>
+          </div>
+
+          <details class="spec">
+            <summary>What's in the box</summary>
+            <ul>
+              <li>1 × Duneglass round glass sand frame, sealed (per frame ordered)</li>
+              <li>1 × stand that turns, so you can flip one-handed</li>
+              <li>Protective packaging</li>
+            </ul>
+          </details>
+          <details class="spec">
+            <summary>Sizes &amp; care</summary>
+            <ul>
+              <li>Petite 7&Prime; · Classic 10&Prime; · Grand 12&Prime; (diameter of the glass)</li>
+              <li>Keep out of direct sunlight and away from heaters</li>
+              <li>Wipe with a soft dry cloth. Don't open the frame.</li>
+            </ul>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPARISON -->
+    <section class="section compare">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Why it works</p>
+        <h2 class="h2">Something calm to look at, <em>without a screen.</em></h2>
+      </div>
+      <div class="table-wrap" data-reveal>
+        <table class="ctable">
+          <thead><tr><th scope="col"></th><th scope="col" class="us">Duneglass</th><th scope="col">Scrolling your phone</th><th scope="col">Fidget toys</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Something new every time</th><td class="us">✓</td><td>✓</td><td>—</td></tr>
+            <tr><th scope="row">No notifications</th><td class="us">✓</td><td>—</td><td>✓</td></tr>
+            <tr><th scope="row">No charging</th><td class="us">✓</td><td>—</td><td>✓</td></tr>
+            <tr><th scope="row">Looks good on a shelf</th><td class="us">✓</td><td>—</td><td>—</td></tr>
+            <tr><th scope="row">Slows you down</th><td class="us">✓</td><td>—</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- GUARANTEE -->
+    <section id="guarantee" class="section guarantee">
+      <div class="g-card" data-reveal>
+        <div class="seal" aria-hidden="true">
+          <svg viewBox="0 0 120 120"><defs><path id="circ" d="M60 60m-44 0a44 44 0 1 1 88 0a44 44 0 1 1-88 0"/></defs><text><textPath href="#circ" textLength="272" lengthAdjust="spacing">30-DAY MONEY-BACK GUARANTEE ·</textPath></text></svg>
+          <span>30</span>
+        </div>
+        <div>
+          <h2 class="h2">Love it, or your <em>money back.</em></h2>
+          <p>Live with your Duneglass for 30 days. If it doesn't earn its spot, send it back for a full refund. If it arrives damaged, send us a photo and we'll ship a free replacement.</p>
+          <a href="#shop" class="btn primary">Choose your colourway</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section faq">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Questions</p>
+        <h2 class="h2">Good to <em>know.</em></h2>
+      </div>
+      <div class="faq-list" data-reveal>
+        <details><summary>How long does one flip last?</summary><p>Most of it happens in the first few minutes, as streams of sand build the main shapes. The fine grains keep drifting down for a while after that. Flip again whenever you like.</p></details>
+        <details><summary>Does it need batteries or power?</summary><p>No. It's just sand, liquid, glass and gravity.</p></details>
+        <details><summary>The sand stopped falling. Is it broken?</summary><p>Almost certainly not. Sand sometimes clings to the glass. Give the frame a gentle quarter-turn or a light tap and it'll start again. Small air bubbles are normal and help the sand move.</p></details>
+        <details><summary>How long does shipping take?</summary><p>Orders are processed in 1–3 business days. Delivery within Australia usually takes 7–14 business days. You'll get a tracking link by email as soon as your order ships.</p></details>
+        <details><summary>What if it arrives damaged?</summary><p>Email us a photo within 7 days of delivery and we'll send a replacement free of charge. You don't need to return the broken one.</p></details>
+        <details><summary>What's your return policy?</summary><p>You have 30 days from delivery to return it for a full refund. Get in touch and we'll walk you through it. Your rights under Australian Consumer Law always apply.</p></details>
+        <details><summary>Is it safe around kids and pets?</summary><p>It's made of glass, so put it on a stable surface out of reach of small children and pets, and supervise younger kids when they flip it.</p></details>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="final">
+      <div class="final-inner" data-reveal>
+        <h2 class="display-sm">Your next landscape is <em>one flip away.</em></h2>
+        <a href="#shop" class="btn primary btn-lg">Shop Duneglass</a>
+        <p class="final-sub">Free shipping over A$100 · 30-day money-back guarantee</p>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section class="section newsletter">
+      <form class="nl-form" id="nlForm" data-reveal>
+        <div>
+          <h3>Get 10% off your first order</h3>
+          <p>Join the list for new colourways and the occasional slow Sunday email.</p>
+        </div>
+        <div class="nl-row">
+          <label class="sr-only" for="nlEmail">Email address</label>
+          <input id="nlEmail" type="email" required placeholder="you@example.com" autocomplete="email" />
+          <button class="btn primary" type="submit">Get my code</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="foot-grid">
+      <div>
+        <a href="#top" class="logo"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 20c4-5 7-5 10-2s5 4 8 0 5-3 6-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Duneglass</a>
+        <p class="muted">Moving sand art for slower days.</p>
+      </div>
+      <nav aria-label="Shop"><h4>Shop</h4><a href="#shop">Duneglass frames</a><a href="#shop">Bundles</a></nav>
+      <nav aria-label="Help"><h4>Help</h4><a href="#faq">Shipping</a><a href="#faq">Returns</a><a href="mailto:hello@example.com">Contact</a></nav>
+      <nav aria-label="Legal"><h4>Legal</h4><a href="#">Privacy policy</a><a href="#">Terms of service</a><a href="#">Refund policy</a></nav>
+    </div>
+    <p class="copy">© <span id="year">2026</span> Duneglass. All rights reserved.</p>
+  </footer>
+
+  <!-- STICKY BUY BAR -->
+  <div class="sticky-buy" id="stickyBuy" aria-hidden="true">
+    <div class="sb-info"><span class="sb-dot" id="sbDot"></span><div><strong id="sbName">Deep Ocean · Petite 7″</strong><span id="sbPrice">A$89</span></div></div>
+    <button class="btn primary" id="sbAdd" type="button" tabindex="-1">Add to cart</button>
+  </div>
+
+  <!-- CART DRAWER -->
+  <div class="scrim" id="scrim" hidden></div>
+  <aside class="drawer" id="drawer" aria-label="Cart" aria-hidden="true">
+    <header class="drawer-head">
+      <h3>Your cart</h3>
+      <button class="icon-btn" id="cartClose" aria-label="Close cart"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    </header>
+    <div class="ship-progress">
+      <p id="shipMsg">You're A$100 away from free shipping</p>
+      <div class="bar"><span id="shipBar"></span></div>
+    </div>
+    <div class="drawer-body" id="cartItems"></div>
+    <div class="upsell" id="upsell"></div>
+    <footer class="drawer-foot">
+      <div class="sum-row"><span>Subtotal</span><span id="subtotal">A$0</span></div>
+      <div class="sum-row save" id="discountRow" hidden><span id="discountLabel">Bundle savings</span><span id="discount">−A$0</span></div>
+      <div class="sum-row"><span>Shipping</span><span id="shipping">—</span></div>
+      <div class="sum-row total"><span>Total</span><span id="total">A$0</span></div>
+      <button class="btn primary btn-block" id="checkout" type="button">Checkout securely</button>
+      <p class="fine">30-day money-back guarantee · Secure checkout</p>
+    </footer>
+  </aside>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/sand.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
